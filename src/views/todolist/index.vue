@@ -8,7 +8,7 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="待办事项" name="first">
           <el-col :xs="24">
-            <template v-if="!Done"> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
+            <template v-if="!(count === list.length || list.length === 0)"> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
               <template v-for="(item, index) in list">
                 <div class="todo-list" v-if="item.status === false" :key="index">
                   <span class="item">
@@ -21,7 +21,7 @@
                 </div>
               </template>
             </template>
-            <div v-else-if="Done">
+            <div v-else-if="count === list.length || list.length === 0">
               暂无待办事项
             </div>
           </el-col>
@@ -57,25 +57,19 @@ export default {
       todos: '',
       activeName: 'first',
       list: [],
-      count: 0
+      count: 0 // 记录已完成事项的条数
     }
   },
-  computed: { // 计算属性用于计算是否已经完成了所有任务
-    Done () {
-      // let count = 0
-      let length = this.list.length
-      // for (let i in this.list) {
-      //   this.list[i].status === true ? count += 1 : ''
-      // }
-      // this.count = count
-      if (this.count === length || this.length === 0) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-
+  // computed: { // 计算属性用于计算是否还存在待办事项
+  // Done () {
+  //   let length = this.list.length
+  //   if (this.count === length || length === 0) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
+  // },
   methods: {
     addTodos () {
       if (this.todos === '') {
@@ -97,6 +91,7 @@ export default {
       })
     },
     remove (index) {
+      console.log(this.count)
       this.list.splice(index, 1)
       if (this.count > 0) {
         this.count--
@@ -108,6 +103,7 @@ export default {
     },
     restore (index) {
       this.$set(this.list[index], 'status', false)
+      this.count--
       this.$message({
         type: 'info',
         message: '任务还原'
