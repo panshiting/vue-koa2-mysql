@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import Login from '@/views/login'
+import ToDoList from '@/views/todoList'
 
 Vue.use(Router)
 
@@ -14,12 +16,14 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/login')
+      component: Login
+      // component: () => import('@/views/login')
     },
     {
       path: '/todoList',
       name: 'ToDoList',
-      component: () => import('@/views/todoList')
+      component: ToDoList
+      // component: () => import('@/views/todoList')
     }
   ]
 })

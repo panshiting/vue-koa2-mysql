@@ -62,13 +62,13 @@ export default {
   },
   computed: { // 计算属性用于计算是否已经完成了所有任务
     Done () {
-      let count = 0
+      // let count = 0
       let length = this.list.length
-      for (let i in this.list) {
-        this.list[i].status === true ? count += 1 : ''
-      }
-      this.count = count
-      if (count === length || length === 0) {
+      // for (let i in this.list) {
+      //   this.list[i].status === true ? count += 1 : ''
+      // }
+      // this.count = count
+      if (this.count === length || this.length === 0) {
         return true
       } else {
         return false
@@ -89,6 +89,7 @@ export default {
       this.todos = ''
     },
     finished (index) {
+      this.count++
       this.$set(this.list[index], 'status', true) // 通过set的方法让数组的变动能够让Vue检测到
       this.$message({
         type: 'success',
@@ -97,6 +98,9 @@ export default {
     },
     remove (index) {
       this.list.splice(index, 1)
+      if (this.count > 0) {
+        this.count--
+      }
       this.$message({
         type: 'info',
         message: '任务删除'
