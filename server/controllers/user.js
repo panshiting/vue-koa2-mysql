@@ -2,11 +2,14 @@
 // import jwt from 'jsonwebtoken'
 // import bcrypt from 'bcryptjs'
 
-const user = require('../models/user')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+// const user = require('../models/user')
+// const jwt = require('jsonwebtoken')
+// const bcrypt = require('bcryptjs')
+import * as user from '../models/user'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 
-export async function getUserInfo (ctx) {
+const getUserInfo = async function (ctx) {
   const id = ctx.params.id // 获取url传过来的参数里的id
   const result = await user.getUserById(id) // 通过await“同步”的返回查询结果
   if (result) {
@@ -24,7 +27,7 @@ export async function getUserInfo (ctx) {
   }
 }
 
-export async function postUserAuth (ctx) {
+const postUserAuth = async function (ctx) {
   const data = ctx.request.body // post过来的数据存在request.body里面
   const userInfo = await user.getUserByName(data.name)
   if (!userInfo) {
@@ -54,4 +57,8 @@ export async function postUserAuth (ctx) {
       respBody: null
     }
   }
+}
+export default {
+  getUserInfo,
+  postUserAuth
 }

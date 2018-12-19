@@ -1,17 +1,29 @@
 // import './env'
-// import Compress from 'koa-compress'
-const Compress = require('koa-compress')
-const path = require('path')
-const staticServer = require('koa-static')
-const Koa = require('koa')
-const koaJson = require('koa-json')
-const logger = require('koa-logger')
-const jwt = require('koa-jwt')
-const historyApiFallback = require('koa2-history-api-fallback')
-const koaRouter = require('koa-router')
-const koaBodyparser = require('koa-bodyparser')
-const auth = require('./routes/auth')
-const api = require('./routes/api')
+import Compress from 'koa-compress'
+import path from 'path'
+import staticServer from 'koa-static'
+import Koa from 'koa'
+import koaJson from 'koa-json'
+import logger from 'koa-logger'
+import jwt from 'koa-jwt'
+import historyApiFallback from 'koa2-history-api-fallback'
+import koaRouter from 'koa-router'
+import koaBodyparser from 'koa-bodyparser'
+import auth from './routes/auth'
+import api from './routes/api'
+
+// const Compress = require('koa-compress')
+// const path = require('path')
+// const staticServer = require('koa-static')
+// const Koa = require('koa')
+// const koaJson = require('koa-json')
+// const logger = require('koa-logger')
+// const jwt = require('koa-jwt')
+// const historyApiFallback = require('koa2-history-api-fallback')
+// const koaRouter = require('koa-router')
+// const koaBodyparser = require('koa-bodyparser')
+// const auth = require('./routes/auth')
+// const api = require('./routes/api')
 
 const app = new Koa()
 const router = koaRouter()
@@ -73,4 +85,4 @@ app.use(staticServer(path.resolve('dist')))
 app.listen(9999, () => {
   console.log(`koa is listening in 9999`)
 })
-module.exports = app
+export default app
