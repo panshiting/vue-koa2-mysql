@@ -1,11 +1,12 @@
-import user from '../controllers/user'
-// const user = require('../controllers/user')
-// const KoaRouter = require('koa-router')
-import KoaRouter from 'koa-router'
+// import user from '../controllers/user'
+const user = require('../controllers/user')
+const router = require('koa-router')()
 
-const router = new KoaRouter()
+// import KoaRouter from 'koa-router'
 
-router.get('/user/:id', user.getUserInfo)
-router.post('/user', user.postUserAuth)
-
-export default router
+module.exports = (app) => {
+  router.get('/user/:id', user.getUserInfo)
+  router.post('/user', user.postUserAuth)
+  app.use(router.routes())
+    .use(router.allowedMethods())
+}

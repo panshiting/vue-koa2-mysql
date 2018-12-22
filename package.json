@@ -5,17 +5,22 @@
   "author": "",
   "private": true,
   "scripts": {
+    "server": "cross-env NODE_ENV=development node ./index.js",
+    "server-release": "cross-env NODE_ENV=release node ./index.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "cross-env NODE_ENV=development node build/build.js",
+    "build-release": "cross-env NODE_ENV=release node build/build.js",
+    "build-production": "cross-env NODE_ENV=production node build/build.js"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "bcryptjs": "^2.4.3",
+    "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
     "jsonwebtoken": "^8.4.0",
     "koa": "^2.6.2",
@@ -27,8 +32,10 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa2-history-api-fallback": "0.0.5",
+    "mysql2": "^1.6.4",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
+    "sequelize": "^4.42.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

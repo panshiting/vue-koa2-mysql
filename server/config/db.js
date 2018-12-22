@@ -1,5 +1,5 @@
-// const Sequelize = require('sequelize')
-import Sequelize from 'sequelize'
+const Sequelize = require('sequelize')
+// import Sequelize from 'sequelize'
 
 // 使用url连接的形式进行连接，注意将root:root(用户:密码)
 const Todolist = new Sequelize('mysql://root:root@localhost/todolist', {

@@ -1,32 +1,18 @@
-// import './env'
-import Compress from 'koa-compress'
-import path from 'path'
-import staticServer from 'koa-static'
-import Koa from 'koa'
-import koaJson from 'koa-json'
-import logger from 'koa-logger'
-import jwt from 'koa-jwt'
-import historyApiFallback from 'koa2-history-api-fallback'
-import koaRouter from 'koa-router'
-import koaBodyparser from 'koa-bodyparser'
-import auth from './routes/auth'
-import api from './routes/api'
-
-// const Compress = require('koa-compress')
-// const path = require('path')
-// const staticServer = require('koa-static')
-// const Koa = require('koa')
-// const koaJson = require('koa-json')
-// const logger = require('koa-logger')
+const Compress = require('koa-compress')
+const path = require('path')
+const staticServer = require('koa-static')
+const Koa = require('koa')
+const koaJson = require('koa-json')
+const logger = require('koa-logger')
 // const jwt = require('koa-jwt')
 // const historyApiFallback = require('koa2-history-api-fallback')
 // const koaRouter = require('koa-router')
-// const koaBodyparser = require('koa-bodyparser')
-// const auth = require('./routes/auth')
+const koaBodyparser = require('koa-bodyparser')
+const auth = require('./routes/auth')
 // const api = require('./routes/api')
 
 const app = new Koa()
-const router = koaRouter()
+// const router = koaRouter()
 
 // let port = process.env.PORT
 
@@ -67,22 +53,19 @@ app.on('error', function (err, ctx) {
 })
 
 // 挂载到koa-router上，同时会让所有的auth的请求路径前面加上'/auth'的请求路径
-router.use('/auth', auth.routes())
+// router.use('/auth', auth.routes())
+auth(app)
 // 所有走/api/打头的请求都需要经过jwt验证。
-router.use('api', jwt({secret: 'vue-koa-demo'}), api.routes())
+// router.use('api', jwt({secret: 'vue-koa-demo'}), api.routes())
 
 // 将路由规则挂载到Koa上
-app.use(router.routes())
-app.use(historyApiFallback())
+// app.use(router.routes())
+// app.use(historyApiFallback())
 // 将webpack打包好的项目目录作为koa静态文件服务的目录
 // app.use(serve(path.resolve('dist')))
 app.use(staticServer(path.resolve('dist')))
 
-// let port = '9999'
-// export default app.listen(port, () => {
-//   console.log(`koa is listening in ${port}`)
-// })
-app.listen(9999, () => {
-  console.log(`koa is listening in 9999`)
+app.listen(8888, () => {
+  console.log(`koa is listening in 8888 release`)
 })
-export default app
+// export default app
