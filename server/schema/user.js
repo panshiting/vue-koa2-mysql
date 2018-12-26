@@ -1,10 +1,10 @@
 /* jshint indent: 2 */
 
-export default function (sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('user', {
     id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
+      type: DataTypes.INTEGER(11).UNSIGNED,
+      allowNull: true,
       primaryKey: true
     },
     user_name: {
@@ -13,6 +13,14 @@ export default function (sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    sex: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    status: {
+      type: DataTypes.INTEGER(255),
       allowNull: true
     }
   }, {

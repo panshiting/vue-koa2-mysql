@@ -1,12 +1,12 @@
 /* jshint indent: 2 */
 
-export default function (sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('list', {
-    id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      primaryKey: true
-    },
+    // id: {
+    //   type: DataTypes.INTEGER(11),
+    //   allowNull: false,
+    //   primaryKey: true
+    // },
     user_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true

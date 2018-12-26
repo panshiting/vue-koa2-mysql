@@ -65,7 +65,7 @@ auth(app)
 // app.use(serve(path.resolve('dist')))
 app.use(staticServer(path.resolve('dist')))
 
-app.listen(8888, () => {
-  console.log(`koa is listening in 8888 release`)
+app.listen(9999, () => {
+  console.log(`koa is listening in 9999 release`)
 })
 // export default app
