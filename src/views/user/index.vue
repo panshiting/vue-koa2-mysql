@@ -70,9 +70,7 @@ export default {
         '提示',
         {type: 'warning'}
       ).then(() => {
-        userDelete({
-          id: id
-        }).then(res => {
+        userDelete(id).then(res => {
           if (res === '正确执行') {
             this.$message.success('删除成功')
             this.getList()

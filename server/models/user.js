@@ -36,13 +36,25 @@ module.exports = {
     })
     return userInfo
   },
-  // 新增用户
+  // 新增编辑用户
   userOperate: async (params) => {
-    const userInfo = await User.findOne({
-      where: {
-        user_name: params.user_name
-      }
-    })
+    let userInfo
+    if (params.id) {
+      userInfo = await User.findOne({
+        where: {
+          user_name: params.user_name,
+          id: {
+            not: params.id
+          }
+        }
+      })
+    } else {
+      userInfo = await User.findOne({
+        where: {
+          user_name: params.user_name
+        }
+      })
+    }
     if (userInfo) {
       return {
         respHeader: {
@@ -52,9 +64,9 @@ module.exports = {
         respBody: null
       }
     } else {
-      let userInfo
+      let result
       if (params.id) {
-        userInfo = await User.update({
+        result = await User.update({
           user_name: params.user_name,
           password: params.password,
           sex: params.sex,
@@ -64,18 +76,18 @@ module.exports = {
             id: params.id
           }
         })
-        console.log(userInfo)
       } else {
-        userInfo = await User.create({
+        result = await User.create({
           user_name: params.user_name,
           password: params.password,
           sex: params.sex,
           status: params.status
         })
       }
-      return userInfo
+      return result
     }
   },
+  // 删除某个用户
   userDelete: async (id) => {
     const userInfo = await User.destroy({
       where: {

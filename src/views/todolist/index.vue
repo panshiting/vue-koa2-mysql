@@ -8,9 +8,9 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="待办事项" name="first">
           <el-col :xs="24">
-            <template v-if="!(count === list.length || list.length === 0)"> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
+            <!--<template v-if="!(count === list.length || list.length === 0)"> &lt;!&ndash;v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for&ndash;&gt;-->
               <template v-for="(item, index) in list">
-                <div class="todo-list" v-if="item.status === false" :key="index">
+                <div class="todo-list" v-if="item.status === 1" :key="index">
                   <span class="item">
                     {{ index + 1 }}. {{ item.content }}
                   </span>
@@ -20,16 +20,16 @@
                   </span>
                 </div>
               </template>
-            </template>
-            <div v-else-if="count === list.length || list.length === 0">
-              暂无待办事项
-            </div>
+            <!--</template>-->
+            <!--<div v-else-if="count === list.length || list.length === 0">-->
+              <!--暂无待办事项-->
+            <!--</div>-->
           </el-col>
         </el-tab-pane>
         <el-tab-pane label="已完成事项" name="second">
-          <template v-if="count > 0">
+          <!--<template v-if="count > 0">-->
             <template v-for="(item, index) in list">
-              <div class="todo-list" v-if="item.status === true" :key="index">
+              <div class="todo-list" v-if="item.status === 0" :key="index">
                 <span class="item finished">
                   {{ index + 1 }}. {{ item.content }}
                 </span>
@@ -38,10 +38,10 @@
                 </span>
               </div>
             </template>
-          </template>
-          <div v-else>
-            暂无已完成事项
-          </div>
+          <!--</template>-->
+          <!--<div v-else>-->
+            <!--暂无已完成事项-->
+          <!--</div>-->
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -49,38 +49,56 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { todoList, createTodoList } from '@/api/todoList'
 export default {
   name: 'ToDoList',
   data () {
     return {
-      name: 'Molunerfinn',
+      name: '',
       todos: '',
       activeName: 'first',
-      list: [],
+      list: [], // status为1代表待办
       count: 0 // 记录已完成事项的条数
     }
   },
-  // computed: { // 计算属性用于计算是否还存在待办事项
-  // Done () {
-  //   let length = this.list.length
-  //   if (this.count === length || length === 0) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
-  // },
+  computed: {
+    ...mapGetters(['userId'])
+  },
+  created () {
+    this.getTodoList()
+  },
   methods: {
-    addTodos () {
+    // 获取列表
+    async getTodoList () {
+      try {
+        let res = await todoList(this.userId)
+        this.list = res.todoList
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    // 添加
+    async addTodos () {
       if (this.todos === '') {
         return
       }
-      let obj = {
-        status: false,
+      let params = {
+        user_id: this.userId,
+        status: 1,
         content: this.todos
       }
-      this.list.push(obj)
-      this.todos = ''
+      // this.list.push(obj)
+      try {
+        let res = await createTodoList(params)
+        console.log(res)
+        if (res === '正确执行') {
+          this.getTodoList()
+          this.todos = ''
+        }
+      } catch (e) {
+        console.log(e)
+      }
     },
     finished (index) {
       this.count++
@@ -116,6 +134,9 @@ export default {
 <style lang="scss" scoped>
   .el-input {
     margin: 20px auto;
+  }
+  .content {
+    margin-top: 50px;
   }
   .todo-list {
     width: 100%;

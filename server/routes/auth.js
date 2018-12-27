@@ -7,7 +7,7 @@ module.exports = (app) => {
   router.get('/auth/user/:id', user.getUserInfo)
   router.post('/auth/user/list', user.postUserList)
   router.post('/auth/user', user.postUser)
-  router.post('/auth/user/delete', user.deleteUser)
+  router.delete('/auth/user/:id', user.deleteUser)
   app.use(router.routes())
     .use(router.allowedMethods())
 }

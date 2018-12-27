@@ -1,6 +1,5 @@
 import user from '../models/user'
 import jwt from 'jsonwebtoken'
-// import bcrypt from 'bcryptjs'
 
 module.exports = {
   // 登录验证
@@ -22,7 +21,9 @@ module.exports = {
             message: '登录成功'
           },
           respBody: {
-            token: token
+            token: token,
+            user_name: userInfo.user_name,
+            user_id: userInfo.id
           }
         }
       } else {
@@ -132,8 +133,8 @@ module.exports = {
   },
   // 删除用户
   deleteUser: async (ctx) => {
-    const data = ctx.request.body.reqBody
-    const result = await user.userDelete(data.id)
+    const id = ctx.params.id
+    const result = await user.userDelete(id)
     console.log(result)
     if (result) {
       ctx.body = {
@@ -144,5 +145,4 @@ module.exports = {
       }
     }
   }
-
 }

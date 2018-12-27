@@ -17,7 +17,7 @@
     </el-menu-item>
     <el-menu-item :index="`/todoList`" key="/todoList">
       <i class="el-icon-menu"></i>
-      <span slot="title">列表</span>
+      <span slot="title">待办列表</span>
     </el-menu-item>
   </el-menu>
 </template>

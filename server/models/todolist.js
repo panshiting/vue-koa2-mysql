@@ -4,25 +4,29 @@ const TodolistDb = db.Todolist // 引入数据库
 
 const Todolist = TodolistDb.import(todoModel)
 
+// 查找所有的todolist
 const getTodolistById = async function (id) {
-  const todolist = await Todolist.findAll({ // 查找全部的todolist
+  const todolist = await Todolist.findAll({
     where: {
       user_id: id
-    },
-    attributes: ['id', 'content', 'status'] // 只需返回这三个字段的结果即可
+    }
+    // attributes: ['id', 'content', 'status'] // 只需返回这三个字段的结果即可
   })
   return todolist // 返回数据
 }
 
+// 新增todolist
 const createTodolist = async function (data) {
-  await Todolist.create({
-    user_id: data.id,
+  const result = await Todolist.create({
+    user_id: data.user_id,
     content: data.content,
     status: data.status
   })
-  return true
+  console.log(result)
+  return result
 }
 
+// 删除todolist
 const removeTodolist = async function (id, userId) {
   const result = await Todolist.destroy({
     where: {
@@ -33,6 +37,7 @@ const removeTodolist = async function (id, userId) {
   return result === 1 // 如果成功删除了记录，返回1，否则返回0
 }
 
+// 更新todolist
 const updateTodolist = async function (id, userId, status) {
   const result = await Todolist.update(
     {

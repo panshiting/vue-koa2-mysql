@@ -7,6 +7,8 @@ const request = axios.create()
  * 请求拦截器
  */
 request.interceptors.request.use(config => {
+  // 每个网络请求前都判断一下token是否存在，如果存在就携带，不存在就不添加token
+  // Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token
   return config
 }, error => {
   return Promise.reject(error)

@@ -2,11 +2,12 @@
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('list', {
-    // id: {
-    //   type: DataTypes.INTEGER(11),
-    //   allowNull: false,
-    //   primaryKey: true
-    // },
+    todo_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true // 是否自增
+    },
     user_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true

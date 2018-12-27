@@ -4,16 +4,26 @@ const getTodolist = async function (ctx) {
   const id = ctx.params.id // 获取url里传过来的参数里的id
   const result = await todolist.getTodolistById(id) // 通过await “同步”地返回查询结果
   ctx.body = {
-    success: true,
-    result // 将请求的结果放到response的body里返回
+    respHeader: {
+      resultCode: 0,
+      message: '正确执行'
+    },
+    respBody: {
+      todoList: result,
+      total: result.length
+    }
   }
 }
 
 const createTodolist = async function (ctx) {
-  const data = ctx.request.body
-  const success = await todolist.createTodolist(data)
+  const data = ctx.request.body.reqBody
+  console.log(data)
+  await todolist.createTodolist(data)
   ctx.body = {
-    success
+    respHeader: {
+      resultCode: 0,
+      message: '正确执行'
+    }
   }
 }
 
@@ -21,9 +31,13 @@ const removeTodolist = async function (ctx) {
   const id = ctx.params.id
   const userId = ctx.params.userId
   const success = await todolist.removeTodolist(id, userId)
-
-  ctx.body = {
-    success
+  if (success) {
+    ctx.body = {
+      respHeader: {
+        resultCode: 0,
+        message: '正确执行'
+      }
+    }
   }
 }
 
