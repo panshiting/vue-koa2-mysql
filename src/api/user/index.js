@@ -1,6 +1,6 @@
 import {get, post, del} from '@/api'
 
-// 登录
+// 用户列表
 export function userList (params) {
   return post('/auth/user/list', params)
 }
