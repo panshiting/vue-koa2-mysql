@@ -49,6 +49,23 @@ export function post (url, params = {}) {
 }
 
 /**
+ * put请求方法
+ * @param url
+ * @param params
+ * @returns {Promise<any>}
+ */
+export function put (url, params = {}) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const {respHeader, respBody} = await request.put(url, {reqBody: params})
+      handleSuccess(resolve, reject, respHeader, respBody)
+    } catch (e) {
+      handleError(reject, e)
+    }
+  })
+}
+
+/**
  * delete请求方法
  * @param url
  * @returns {Promise<any>}

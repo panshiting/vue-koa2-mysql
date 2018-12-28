@@ -28,8 +28,8 @@ const createTodolist = async function (ctx) {
 }
 
 const removeTodolist = async function (ctx) {
-  const id = ctx.params.id
-  const userId = ctx.params.userId
+  const id = Number(ctx.params.id)
+  const userId = Number(ctx.params.userId)
   const success = await todolist.removeTodolist(id, userId)
   if (success) {
     ctx.body = {
@@ -42,15 +42,19 @@ const removeTodolist = async function (ctx) {
 }
 
 const updateTodolist = async function (ctx) {
-  const id = ctx.params.id
-  const userId = ctx.params.userId
-  let status = ctx.params.status
-  status === '0' ? status = true : status = false// 状态反转（更新）
-
+  const id = Number(ctx.params.id)
+  const userId = Number(ctx.params.userId)
+  let status = Number(ctx.params.status)
+  status === 0 ? status = 1 : status = 0// 状态反转（更新）
+  console.log(status)
   const success = await todolist.updateTodolist(id, userId, status)
-
-  ctx.body = {
-    success
+  if (success) {
+    ctx.body = {
+      respHeader: {
+        resultCode: 0,
+        message: '正确执行'
+      }
+    }
   }
 }
 

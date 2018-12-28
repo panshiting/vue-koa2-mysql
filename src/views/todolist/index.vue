@@ -12,11 +12,11 @@
               <template v-for="(item, index) in list">
                 <div class="todo-list" v-if="item.status === 1" :key="index">
                   <span class="item">
-                    {{ index + 1 }}. {{ item.content }}
+                    {{ item.content }}
                   </span>
                   <span class="pull-right">
-                    <el-button size="small" type="primary" @click="finished(index)">完成</el-button>
-                    <el-button size="small" :plain="true" type="danger" @click="remove(index)">删除</el-button>
+                    <el-button size="small" type="primary" @click="finished(item)">完成</el-button>
+                    <el-button size="small" :plain="true" type="danger" @click="remove(item)">删除</el-button>
                   </span>
                 </div>
               </template>
@@ -31,10 +31,10 @@
             <template v-for="(item, index) in list">
               <div class="todo-list" v-if="item.status === 0" :key="index">
                 <span class="item finished">
-                  {{ index + 1 }}. {{ item.content }}
+                  {{ item.content }}
                 </span>
                 <span class="pull-right">
-                  <el-button size="small" type="primary" @click="restore(index)">还原</el-button>
+                  <el-button size="small" type="primary" @click="restore(item)">还原</el-button>
                 </span>
               </div>
             </template>
@@ -50,7 +50,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { todoList, createTodoList } from '@/api/todoList'
+import { todoList, createTodoList, putTodoList, delTodoList } from '@/api/todoList'
 export default {
   name: 'ToDoList',
   data () {
@@ -88,7 +88,6 @@ export default {
         status: 1,
         content: this.todos
       }
-      // this.list.push(obj)
       try {
         let res = await createTodoList(params)
         console.log(res)
@@ -100,32 +99,61 @@ export default {
         console.log(e)
       }
     },
-    finished (index) {
-      this.count++
-      this.$set(this.list[index], 'status', true) // 通过set的方法让数组的变动能够让Vue检测到
-      this.$message({
-        type: 'success',
-        message: '任务完成'
-      })
-    },
-    remove (index) {
-      console.log(this.count)
-      this.list.splice(index, 1)
-      if (this.count > 0) {
-        this.count--
+    // 完成（修改状态）
+    async finished (item) {
+      try {
+        let res = await putTodoList(item.user_id, item.todo_id, item.status)
+        console.log(res)
+        if (res === '正确执行') {
+          this.$message({
+            type: 'success',
+            message: '任务完成'
+          })
+          this.getTodoList()
+          this.todos = ''
+        }
+      } catch (e) {
+        console.log(e)
       }
-      this.$message({
-        type: 'info',
-        message: '任务删除'
+    },
+    // 删除
+    remove (item) {
+      this.$confirm(
+        '确定删除数据吗?',
+        '提示',
+        {type: 'warning'}
+      ).then(() => {
+        delTodoList(item.user_id, item.todo_id).then(res => {
+          if (res === '正确执行') {
+            this.$message.success('删除成功')
+            this.getTodoList()
+          }
+        }).catch(e => {
+          console.log(e)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
-    restore (index) {
-      this.$set(this.list[index], 'status', false)
-      this.count--
-      this.$message({
-        type: 'info',
-        message: '任务还原'
-      })
+    // 状态还原
+    async restore (item) {
+      try {
+        let res = await putTodoList(item.user_id, item.todo_id, item.status)
+        console.log(res)
+        if (res === '正确执行') {
+          this.$message({
+            type: 'success',
+            message: '任务还原'
+          })
+          this.getTodoList()
+          this.todos = ''
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
