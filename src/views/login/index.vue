@@ -1,14 +1,16 @@
 <template>
-  <el-row class="content">
-    <el-col :xs="24" :sm="{span: 6, offset: 9}">
-      <span class="title">欢迎登录</span>
-      <el-row>
-        <el-input v-model="user_name" placeholder="pst" type="text"></el-input>
-        <el-input v-model="password" placeholder="123456" type="password"></el-input>
-        <el-button type="primary" @click="login">登录</el-button>
-      </el-row>
-    </el-col>
-  </el-row>
+  <div class="contain">
+    <div class="content">
+      <!--<el-col :xs="24" :sm="{span: 6, offset: 9}">-->
+        <span class="title">欢迎登录</span>
+        <div>
+          <el-input v-model="user_name" placeholder="pst" type="text"></el-input>
+          <el-input v-model="password" placeholder="123456" type="password"></el-input>
+          <el-button type="primary" @click="login">登录</el-button>
+        </div>
+      <!--</el-col>-->
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,12 +49,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .contain {
+    position: fixed;
+    background-image: url("../../../src/assets/login-back.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
   .content {
-    margin-top: 100px;
+    position: absolute;
+    width: 320px;
+    top: 40%;
+    left: 70%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    padding: 16px;
     .title {
       font-size: 28px;
+      color: #fff;
     }
     .el-input {
       margin: 12px 0;
