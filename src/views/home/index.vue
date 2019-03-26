@@ -13,6 +13,7 @@ export default {
   },
   mounted () {
     this.protoTest()
+    this.typeTest()
   },
   methods: {
     createClass () {
@@ -56,6 +57,18 @@ export default {
       //   console.log(this)
       //   alert('clicked')
       // }).html('<p>javascript</p>')
+    },
+    typeTest () {
+      // console.log([] == 0) // true
+      // console.log(![] == 0) // true
+      // console.log([] == ![]) // true
+      // console.log([] == []) // false
+      // console.log({} == !{}) // false
+      // console.log({} == {}) // false
+      console.log(Number([]))
+      console.log(Number(![]))
+      console.log(Number({}))
+      console.log(Number(!{}))
     }
   }
 }
