@@ -1,6 +1,6 @@
 <template>
   <section class="home">
-    <div class="content">欢迎</div>
+    <div class="content">欢迎简单测试</div>
     <div id="protoId"></div>
   </section>
 </template>
